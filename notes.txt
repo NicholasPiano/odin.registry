@@ -1,0 +1,23 @@
+
+#$ May 20, 2017
+
+The registry server does not need to use websockets. Data can be pushed to the registry server via a small api, but no data is exchanged between the user and the registry server for normal use, hence only http requests need be used. This protocol can be upgraded to https, but no real authentication is necessary. One need only know the UUID of the application structure that one wishes to access. An example:
+
+Application request:
+https://some.registry.server.com/a/60cf1f0a-ff37-4ecb-abbf-b6745bce57a1
+
+Response:
+An html document containing,
+1. The UI framework
+	a. Central state handler
+	b. Central user action logging and behaviour registry
+	c. Application namespacing
+	d. Application dynamic interface definition script loading
+	e. Application data exchange and storage
+2. Application structure definition and loader
+
+var applications = {
+	auth: 'http://localhost:8080',
+	chat: 'http://localhost:8000',
+	transcription: 'http://localhost:8001',
+}

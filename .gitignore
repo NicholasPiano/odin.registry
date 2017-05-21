@@ -1,4 +1,6 @@
 
-*.pyc
+# Database
 *.sqlite3
-migrations/
+
+# node_modules
+node_modules/
