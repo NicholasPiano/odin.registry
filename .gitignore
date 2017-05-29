@@ -1,6 +1,15 @@
 
-# Database
+# Django
+*.pyc
 *.sqlite3
+migrations/
+
+# venv
+include/
+bin/
+lib/
+pyvenv.cfg
+pip-selfcheck.json
 
 # node_modules
 node_modules/
