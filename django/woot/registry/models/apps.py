@@ -13,16 +13,22 @@ class AuthServer(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True)
 	url = models.CharField(max_length=255)
 
+	### Methods
+	def contact(self, token):
+		pass
+
 class AppRegistry(models.Model):
 
 	### Properties
 	id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+	name = models.CharField(max_length=255)
 	date_created = models.DateTimeField(auto_now_add=True)
 
 	### Methods
-	def data(self):
+	def data(self, agent):
 		return {
-			'apps': {app.id: app.data() for app in self.apps.all()},
+			'apps': {app.id: app.data(agent=agent) for app in self.apps.all()},
+			'token': self.tokens.create(agent=agent).data(),
 		}
 
 class AppServer(models.Model):
@@ -33,6 +39,7 @@ class AppServer(models.Model):
 
 	### Properties
 	id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+	name = models.CharField(max_length=255)
 	date_created = models.DateTimeField(auto_now_add=True)
 	ws = models.CharField(max_length=255)
 
@@ -41,4 +48,5 @@ class AppServer(models.Model):
 		return {
 			'ws': self.ws,
 			'auth': self.auth_server.url,
+			'token': self.tokens.create(agent=agent).data(),
 		}
