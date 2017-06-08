@@ -27,3 +27,7 @@ var applications = {
 Testing node/orm2 package yields difficulties. A sample of the code is found in ./node/orm2. It mostly worked, except for the reverse accessors, which refused to work. The repo can be found at https://github.com/dresende/node-orm2. A fair few dependencies.
 
 Check out http://docs.sequelizejs.com/manual/installation/getting-started.html. SequalizeJS. The only place where this would really be useful is the auth server, as it does not have to be complicated, but if I can get django working with websockets, all three can be django no problem. All three should be tried with node as well.
+
+#$ June 8, 2017
+
+What does this server have to look like? It just needs to respond to simple requests. It has to deliver 
