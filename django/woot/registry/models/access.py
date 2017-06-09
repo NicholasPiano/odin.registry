@@ -27,6 +27,7 @@ class RegistryToken(models.Model):
 	### Methods
 	def data(self):
 		return {
+			'id': str(self.id),
 			'date_created': str(self.date_created),
 		}
 
@@ -47,6 +48,7 @@ class AccessToken(models.Model):
 	### Methods
 	def data(self):
 		return {
+			'id': str(self.id),
 			'date_created': str(self.date_created),
 			'is_auth_verified': str(self.is_auth_verified),
 			'is_app_verified': str(self.is_app_verified),

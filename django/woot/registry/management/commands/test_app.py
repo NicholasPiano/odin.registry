@@ -18,3 +18,6 @@ class Command(BaseCommand):
 		# create apps
 		main_app = app_registry.apps.create(name='main', ws='ws://localhost:8000', auth_server=auth)
 		chat_app = app_registry.apps.create(name='chat', ws='ws://localhost:8001', auth_server=auth)
+
+		# show uuid
+		self.stdout.write(str(app_registry.id))

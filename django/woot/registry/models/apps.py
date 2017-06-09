@@ -25,9 +25,9 @@ class AppRegistry(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True)
 
 	### Methods
-	def data(self, agent):
+	def data(self, agent=None):
 		return {
-			'apps': {app.id: app.data(agent=agent) for app in self.apps.all()},
+			'apps': {str(app.id): app.data(agent=agent) for app in self.apps.all()},
 			'token': self.tokens.create(agent=agent).data(),
 		}
 
@@ -44,10 +44,10 @@ class AppServer(models.Model):
 	ws = models.CharField(max_length=255)
 
 	### Methods
-	def data(self):
+	def data(self, agent=None):
 		return {
 			'name': self.name,
 			'ws': self.ws,
-			'auth': self.auth_server.url,
+			'auth': self.auth_server.ws,
 			'token': self.tokens.create(agent=agent).data(),
 		}
