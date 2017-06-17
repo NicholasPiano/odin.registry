@@ -1,0 +1,25 @@
+
+#! 16 June 2017
+
+1. Thinking about paths
+
+What I want is to be able to access models from the top level with a path, but have a way of doing it that does not query the database for intermediate models. So a path like:
+
+model.UUID1.child.UUID2
+
+in the current scheme would also query for the model as well as the child. To counter this, the path can be evaluated as a single SQL query:
+
+Child.objects.get(parent__id=UUID1, id=UUID2)
+
+And so on recursively up the chain. To find out how to do this, the path needs to be parsed to find the class of the lowest level object. For each link in the chain, find the related name that matches the child object and reverse it.
+
+If the child UUID is known, it is not necessary to filter the parent objects. The query can start at the last child. The only thing that is important is knowing the chain of related object names in order to know what class to use.
+
+'model.UUID1.children.UUID2'
+
+class Child():
+	parent = ForeignKey(Model, related_name='children')
+
+for field in Model.fields:
+	if field == 'children':
+		return field.model(id=UUID2).access()

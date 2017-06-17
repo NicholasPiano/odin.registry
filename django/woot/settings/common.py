@@ -208,6 +208,7 @@ THIRD_PARTY_APPS = (
 
 LOCAL_APPS = (
 	'registry',
+	'odin',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
