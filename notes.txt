@@ -30,4 +30,27 @@ Check out http://docs.sequelizejs.com/manual/installation/getting-started.html. 
 
 #$ June 8, 2017
 
-What does this server have to look like? It just needs to respond to simple requests. It has to deliver 
+What does this server have to look like? It just needs to respond to simple requests. It has to deliver the UI script and info about the other app servers. Also default apps that handle login and other stuff.
+
+#$ July 2, 2017
+
+Thinking about Permissions. I want to be able to say:
+
+NewPermission = Admin and Editor
+
+This means hijacking the python magic methods like "__and__", etc. This is quite possible, I just don't know how to properly interact with it. Then I can say:
+
+if permission == Admin and not Editor
+
+Thinking about Interfaces. A set of interface elements are stored in the database and can be rendered into a single file. The tree of components is accessed using the same permissions as those used to access data. Lack of permission to access data means lack of permission to access the interface elements that would be used to display it.
+
+1. Authenticate the user -> identity is known
+2. Determine permissions -> Describe the user (Groups, Roles, etc are just shortcuts for user description)
+3. Request resources -> "all of these", "things that match this", "exactly this"
+	a. The entry point is a "path" describing how to get the data.
+
+	e.g. 'clients.<client_uuid>.projects.<project_uuid>.name'
+
+	b. The path is modified by the description of the user, denying or allowing access to properties.
+	c. The data web is traversed, constructing database queries as conservatively as possible.
+	d. The result of the query is integrated with the active information held by the user.
