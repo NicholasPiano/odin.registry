@@ -11,6 +11,9 @@ class Field(models.Field):
 		# 1. permission class
 		# 2. serialization formatting: date, uuid,
 		# print(self.format(), self.__dict__)
+		if 'permission' in kwargs:
+			self.permission = kwargs['permission']
+			del kwargs['permission']
 
 		super(Field, self).__init__(*args, **kwargs)
 
@@ -20,6 +23,10 @@ class Field(models.Field):
 	def access(self, model, path, **kwargs):
 		pass
 
+	def check_permission(self):
+		return False
+
+# Datebase columns
 class UUIDField(models.UUIDField, Field):
 	def format(self):
 		return str(self)
@@ -27,3 +34,18 @@ class UUIDField(models.UUIDField, Field):
 class DateTimeField(models.DateTimeField, Field):
 	def format(self):
 		return str(self)
+
+class CharField(models.CharField, Field):
+	def format(self):
+		return str(self)
+
+# Related objects
+class ManyToOneRel(models.fields.reverse_related.ManyToOneRel, Field):
+	pass
+
+class ForeignKey(models.ForeignKey, Field):
+	rel_class = ManyToOneRel
+
+	def format(self):
+		return str(self)
+

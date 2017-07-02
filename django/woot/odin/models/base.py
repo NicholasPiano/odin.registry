@@ -14,33 +14,6 @@ class Manager(models.Manager):
 	### Methods
 	def access(self, path, **kwargs):
 
-		# Make a query over all models. Accesses only the field names, and then, recursively,
-		# the field names of any related objects to avoid database lookups until necessary.
-
-		pass
-
-### Model
-class Model(models.Model):
-
-	### Manager
-	objects = Manager()
-
-	### Meta
-	class Meta:
-		abstract=True # Set this model as Abstract
-
-	### Properties
-	id = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-	@property
-	def _id(self):
-		return self.id.hex
-
-	date_created = DateTimeField(auto_now_add=True)
-	date_accessed = DateTimeField(auto_now=True, blank=True)
-	date_updated = DateTimeField(auto_now=False, blank=True)
-
-	### Methods
-	def access(self, path, **kwargs):
 		# 1. By some means, parse the path to access three pieces of information:
 			# a. The UUID of the last object
 			# b. The chain of related objects
@@ -65,7 +38,44 @@ class Model(models.Model):
 		# 2. If the result of step 1 is a single object and kwargs['<property>'] is present,
 		# Feel free to set that property on the final object.
 
-		data = {field.name: field.access(self, path, **kwargs) for field in self.__class__._meta.get_fields()}
+		###
+
+		# The structure of a path should follow this pattern:
+		# <registry>.<registered_uuid>.<property_name>.<property_uuid> -> continue
+		# <registry>.<registered_uuid>.<property_name>.<property_uuid> -> stop
+		# <registry>.<registered_uuid>.<property_name> -> stop
+		# <registry>.<registered_uuid> -> stop
+		# <registry> -> stop
+
+		# Each object that subclasses "Model" will be a registry, with the register name specified in the class definition.
+		
+
+		pass
+
+### Model
+class Model(models.Model):
+
+	### Manager
+	objects = Manager()
+
+	### Meta
+	class Meta:
+		abstract=True # Set this model as Abstract
+
+	### Properties
+	id = UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+	@property
+	def _id(self):
+		return self.id.hex
+
+	date_created = DateTimeField(auto_now_add=True)
+	date_accessed = DateTimeField(auto_now=True, null=True)
+	date_updated = DateTimeField(auto_now=False, null=True)
+
+	### Methods
+	def access(self, path, **kwargs):
+		# return {field.name: field.access(self, path, **kwargs) for field in self.__class__._meta.get_fields() if field.check_permission()}
+		pass
 
 class PermissionsMixin():
 	pass

@@ -207,7 +207,7 @@ THIRD_PARTY_APPS = (
 )
 
 LOCAL_APPS = (
-	'registry',
+	# 'registry',
 	'odin',
 	'goal',
 )

@@ -12,15 +12,15 @@ from .permission import Moderator
 ### Models
 class GoalParent(Model):
 
-	### Properties
-	name = fields.CharField(max_length=255, permission=(Admin and Creator))
+	register = 'goal_parent'
 
-register('parents', GoalParent)
+	### Properties
+	name = fields.CharField(max_length=255, permission=(AdminAll and Creator))
 
 class GoalChild(Model):
 
 	### Connections
-	parent = fields.ForeignKey('goal.GoalParent', related_name='children', permission=(Admin and Moderator))
+	parent = fields.ForeignKey('goal.GoalParent', related_name='children', permission=(AdminAll and Moderator))
 
 	### Properties
-	name = fields.CharField(max_length=255, permission=(Admin and Creator and Moderator and not Viewer))
+	name = fields.CharField(max_length=255, permission=(AdminAll and Creator and Moderator and not Viewer))
